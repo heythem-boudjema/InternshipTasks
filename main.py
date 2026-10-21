@@ -13,11 +13,11 @@ with open("books.json", "r", encoding="utf-8") as file:
         if book["price"][0] == "€":
             price = EuroToDollar(float(book["price"][1:]))
         else:
-            price = book["price"][1:]
+            price = float(book["price"][1:])
 
         try:
             connection.execute("""
-                INSERT INTO JsonBooks
+                INSERT INTO Books
                 (ID, title, author, genre, publisher, PubYear, price)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
@@ -32,6 +32,7 @@ with open("books.json", "r", encoding="utf-8") as file:
 
         except pyodbc.Error as e:
             print(e)
+         break
 
     connection.commit()
 
